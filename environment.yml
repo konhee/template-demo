@@ -1,0 +1,22 @@
+# environment.yml — conda specification of the project's Python dependencies.
+#
+# This RECORDS what the pipeline needs; how you satisfy it is your choice:
+#   Isolated env (recommended for reproducibility):
+#       conda env create -f environment.yml   # creates env "template"
+#       conda activate template
+#   Into an existing shared env instead:
+#       conda env update -n <your-env> -f environment.yml
+#
+# The Makefile calls `$(PYTHON)`. If your chosen env's python is not the default
+# `python` on PATH, point PYTHON at it in config.local.mk (see the example there).
+#
+# Rename `template` per project so envs don't collide across clones.
+name: template
+channels:
+  - conda-forge          # reproducible; avoids the defaults-channel licensing question
+dependencies:
+  - python=3.12
+  - pandas               # required by the pipeline
+  - matplotlib           # code/reference/py/figures.py (house-style reference)
+  - scipy                # code/reference/py/figures.py, tables.py (house-style reference)
+  - statsmodels          # code/reference/py/tables.py (house-style reference)

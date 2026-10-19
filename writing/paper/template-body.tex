@@ -1,0 +1,100 @@
+%%%%%%%%%%%%%%%%%%%% PREAMBLE %%%%%%%%%%%%%%%%%%%%
+% !TEX program = lualatex
+% !TEX options = -synctex=1 -interaction=nonstopmode -file-line-error "%DOC%"
+% !BIB program = bibtex
+
+\documentclass[template-combined]{subfiles}
+\externaldocument{template-appendices}
+
+
+
+%%%%%%%%%%%%%%%%%%%% ABSTRACT %%%%%%%%%%%%%%%%%%%%
+
+
+
+\begin{document}
+
+\title{Idea of North\textsuperscript{\textdagger}}
+\author{
+	Author One, Author Two, and Author Three\textsuperscript{*}
+}
+\date{
+	\monthyeardate\today \\
+	Link to the latest version
+}
+
+\begin{singlespacing}
+	\maketitle
+	\thispagestyle{empty}
+
+	\begin{abstract}    
+		\input{./supp/abstract.tex}
+	\end{abstract}
+	\blfootnote{\kern-0.15em \textsuperscript{\textdagger}\,The analysis and conclusions contained in this manuscript are those of the authors and do not necessarily reflect the views of your institution, its members, or its staff. [Institutional disclaimer placeholder.]}
+	\blfootnote{\kern-0.15em \textsuperscript{*}\,Author One: Institution, Address (e-mail: \href{mailto:author1@example.com}{author1@example.com}); Author Two: Institution, Address (e-mail: \href{mailto:author2@example.com}{author2@example.com}); Author Three: Institution, Address (e-mail: \href{mailto:author3@example.com}{author3@example.com}).}
+\end{singlespacing}
+
+
+
+%%%%%%%%%%%%%%%%%%%% TEXT %%%%%%%%%%%%%%%%%%%%
+
+
+
+\clearpage
+\setcounter{page}{1}
+\hidefromtoc
+
+%%%%% SEC:INTRODUCTION
+\section{Introduction} \label{sec:introduction}
+\input{./supp/sec-introduction}
+
+%%%%% SEC:BACKGROUND
+\section{Background} \label{sec:background}
+% \input{./supp/sec-background}
+
+%%%%% SEC:DATA
+\section{Data} \label{sec:data}
+% \input{./supp/sec-data}
+
+%%%%% SEC:EMPIRICS
+\section{Empirical Analysis} \label{sec:empirics}
+% \input{./supp/sec-empirics}
+
+%%%%% SEC:MODEL
+\section{Quantitative Model} \label{sec:model}
+% \input{./supp/sec-model}
+
+%%%%% SEC:CONCLUSION
+\section{Conclusion} \label{sec:conclusion}
+% \input{./supp/sec-conclusion}
+
+
+
+%%%%%%%%%%%%%%%%%%%% REFERENCES %%%%%%%%%%%%%%%%%%%%
+
+
+
+\clearpage
+\vspace{0.3em}
+\begin{singlespacing}
+	\bibliography{../references}
+\end{singlespacing}
+
+
+
+%%%%%%%%%%%%%%%%%%%% FIGURES AND TABLES %%%%%%%%%%%%%%%%%%%%
+
+%%%%% SEC:FIGURES
+\clearpage
+\section*{Figures}
+\input{./supp/sec-figures.tex}
+
+%%%%% SEC:TABLES
+\clearpage
+\section*{Tables}
+\input{./supp/sec-tables.tex}
+
+
+\unhidefromtoc
+
+\end{document}

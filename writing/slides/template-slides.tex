@@ -1,0 +1,87 @@
+%%%%%%%%%%%%%%%%%%%% PREAMBLE %%%%%%%%%%%%%%%%%%%%
+% !TEX program = lualatex
+% !TEX options = -synctex=1 -interaction=nonstopmode -file-line-error "%DOC%"
+% !BIB program = bibtex
+\documentclass[t,10pt,aspectratio=169]{beamer}
+
+\input{./supp/preamble-slides.tex}
+
+
+
+%%%%%%%%%%%%%%%%%%%% TITLE %%%%%%%%%%%%%%%%%%%%
+
+
+
+\title{Idea of North}
+%\subtitle{TBD.}
+\author{Author Name}
+\institute{Affiliation}
+\date{Month Day, Year}
+
+% Frame numbers: \framenumberstrue to show "n / N" on content slides.
+\framenumbersfalse
+
+
+
+%%%%%%%%%%%%%%%%%%%% SLIDES %%%%%%%%%%%%%%%%%%%%
+\section*{Table of contents}
+
+\setbeamertemplate{page number in head/foot}{}
+
+\begin{document}
+
+\begin{frame}[noframenumbering]
+	\maketitle
+\end{frame}
+
+\input{./supp/sec-introduction}
+\input{./supp/sec-literature.tex}
+\input{./supp/sec-background.tex}
+\input{./supp/sec-data.tex}
+\input{./supp/sec-toc.tex}
+\input{./supp/sec-empirics.tex}
+\input{./supp/sec-model.tex}
+\input{./supp/sec-conclusion.tex}
+
+%%%%% THANK YOU
+% Set exactly like the title page (supp/preamble-slides.tex, "customize title page"):
+% same top space, the heading in the title font (\large bold), 2em below it, then the
+% contact lines as the author/institute/date block. [t], not [c], so the top space is
+% fixed rather than centred.
+\begin{frame}[noframenumbering,t]
+	\vbox{}
+	\vspace{8em}%
+	\begingroup
+	\centering
+	\begin{beamercolorbox}[center]{title}
+		\usebeamerfont{title}Thank you!\par
+	\end{beamercolorbox}%
+	\vskip2em\par
+	\begin{beamercolorbox}[center]{author}\usebeamerfont{author}Author Name\end{beamercolorbox}
+	\vskip0.25em\par
+	\begin{beamercolorbox}[center]{author}\usebeamerfont{author}\href{mailto:author@example.com}{author@example.com}\end{beamercolorbox}
+	\vskip0.25em\par
+	\begin{beamercolorbox}[center]{author}\usebeamerfont{author}\url{https://example.com}\end{beamercolorbox}
+	\endgroup
+\end{frame}
+
+
+
+%%%%%%%%%%%%%%%%%%%% APPENDIX %%%%%%%%%%%%%%%%%%%%
+
+
+
+\appendix
+\input{./supp/appendices.tex}
+
+
+
+%%%%%%%%%%%%%%%%%%%% REFERENCES %%%%%%%%%%%%%%%%%%%%
+
+
+
+\nobibliography{../references}
+
+
+
+\end{document} 

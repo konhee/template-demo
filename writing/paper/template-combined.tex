@@ -1,0 +1,32 @@
+% !TEX program = lualatex
+% !TEX options = -synctex=1 -interaction=nonstopmode -file-line-error "%DOC%"
+% !BIB program = bibtex
+\documentclass[letterpaper,12pt]{article}
+
+\input{./supp/preamble.tex}
+
+\begin{document}
+
+% Marker to indicate this is the combined document (for subfile conditionals)
+% MUST be inside \begin{document} so it's not loaded by subfiles' preamble
+\newcommand{\maindocument}{}
+
+% main
+\subfile{template-body}
+
+% appendix
+\clearpage
+\setcounter{page}{1}
+\renewcommand*{\thepage}{A.\arabic{page}}
+\counterwithin{figure}{section}
+\counterwithin{table}{section}
+\counterwithin{equation}{section}
+% Appendix numbering style (uncomment alternatives for section-based numbering):
+\renewcommand\thefigure{A.\arabic{figure}}           % Simple: A.1, A.2, ...
+\renewcommand\thetable{A.\arabic{table}}
+\renewcommand\theequation{A.\arabic{equation}}
+%\renewcommand\thefigure{\thesection.\arabic{figure}}  % Section-based: A.1.1, A.2.1, ...
+%\renewcommand\thetable{\thesection.\arabic{table}}
+\subfile{template-appendices}
+
+\end{document}

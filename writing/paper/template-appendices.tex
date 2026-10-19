@@ -1,0 +1,109 @@
+%%%%%%%%%%%%%%%%%%%% PREAMBLE %%%%%%%%%%%%%%%%%%%%
+% !TEX program = lualatex
+% !TEX options = -synctex=1 -interaction=nonstopmode -file-line-error "%DOC%"
+% !BIB program = bibtex
+
+\documentclass[template-combined]{subfiles}
+\externaldocument{template-body}
+
+
+
+%%%%%%%%%%%%%%%%%%%% ABSTRACT %%%%%%%%%%%%%%%%%%%%
+
+
+
+\begin{document}
+
+% --- Appendix-only titlepage override ---
+\makeatletter
+\renewcommand{\maketitle}{\bgroup\setlength{\parindent}{0pt}
+  \centering
+  \vspace*{\titletopsep}% same as the body; use \dimexpr\titletopsep-1.5em\relax for a
+  % two-line title (e.g. "Appendix to \protect\\ <Title>") so the author line stays level
+  \large\MakeUppercase{\@title}\\\normalsize
+  \vspace{2em}
+  {\@author}\\
+  \vspace{1em}
+  {\@date}\\
+\egroup
+}
+\makeatother
+% ---------------------------------------
+
+\title{Appendix to Idea of North}
+\author{
+	Author One, Author Two, and Author Three\textsuperscript{*}
+}
+\date{\monthyeardate\today}
+
+% Appendix numbering (only applies when compiled standalone, not in combined doc)
+\makeatletter
+\@ifundefined{maindocument}{%
+  % Standalone: set appendix page/figure/table numbering
+  \setcounter{page}{1}
+  \renewcommand*{\thepage}{A.\arabic{page}}
+  \renewcommand\thefigure{A.\arabic{figure}}
+  \renewcommand\thetable{A.\arabic{table}}
+  \renewcommand\theequation{A.\arabic{equation}}
+}{}
+\makeatother
+
+\begin{singlespacing}
+	\maketitle
+	\thispagestyle{empty}
+	% The ToC's first entry carries tocloft's own top skip (1em) on top of
+	% \titlepagehead's trailing \titleheadsep. Remove it so the gap to the first entry
+	% equals \titleheadsep, as the gap from "Abstract" to the abstract does.
+	\titlepagehead{Table of Contents}
+	{
+		\hypersetup{linkcolor=black}
+		\vspace{-1em}
+		\tableofcontents
+	}
+	\blfootnote{\kern-0.15em \textsuperscript{*}\,Author One: Institution, Address (e-mail: \href{mailto:author1@example.com}{author1@example.com}); Author Two: Institution, Address (e-mail: \href{mailto:author2@example.com}{author2@example.com}); Author Three: Institution, Address (e-mail: \href{mailto:author3@example.com}{author3@example.com}).}
+\end{singlespacing}
+
+
+
+%%%%%%%%%%%%%%%%%%%% TEXT %%%%%%%%%%%%%%%%%%%%
+
+
+
+% End the title page before restarting the count, so the first section is A.1 (as the
+% body's first section is page 1).
+\clearpage
+\setcounter{page}{1}
+\appendix
+
+%%%%% SEC:DATA
+\section{Additional Literature} \label{appendix:sec:literature}
+\citet*{Card-1990-ILRR}
+
+%%%%% SEC:ADDITIONAL FIGURES
+\clearpage
+\section{Additional Figures}
+TBD.
+
+%%%%% SEC:ADDITIONAL TABLES
+\clearpage
+\section{Additional Tables}
+TBD.
+
+
+
+%%%%%%%%%%%%%%%%%%%% REFERENCES %%%%%%%%%%%%%%%%%%%%
+
+% Conditionally include bibliography based on compilation mode
+\makeatletter
+\@ifundefined{maindocument}{%
+  % Standalone mode: include bibliography on new page
+  \clearpage
+  \begin{singlespacing}
+  \bibliography{../references}
+  \end{singlespacing}
+}{%
+  % Combined mode: no bibliography (it appears in main body)
+}
+\makeatother
+
+\end{document}

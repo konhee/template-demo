@@ -1,0 +1,13 @@
+# Force LF on files where CRLF breaks tooling, even on Windows checkouts.
+# GNU Make treats a trailing CR as part of the recipe; Stata/shell can mis-parse it.
+Makefile   text eol=lf
+*.mk       text eol=lf
+*.sh       text eol=lf
+*.do       text eol=lf
+
+# Treat compiled documents and fonts as binary (no EOL munging, no diff noise).
+*.pdf      binary
+*.ttf      binary
+*.otf      binary
+*.jpg      binary
+*.png      binary

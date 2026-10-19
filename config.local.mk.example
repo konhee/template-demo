@@ -1,0 +1,56 @@
+# config.local.mk.example — per-machine overrides template.
+#
+# Copy to config.local.mk (which is gitignored) and uncomment/edit as needed:
+#
+#     cp config.local.mk.example config.local.mk
+#
+# config.mk includes this file BEFORE its own `?=` defaults, so anything you set
+# here wins. Only set the lines you actually need to change; leave the rest.
+# If your tools are already on PATH with the default names, you need no local file
+# at all.
+
+# --- Stata not on PATH? Point at the binary (mind the quotes on Windows paths) ---
+# Windows:
+# STATA       := "C:/Program Files/Stata18/StataMP-64.exe"
+# STATA_BATCH := /e do
+#
+# macOS (app bundle):
+# STATA       := /Applications/Stata/StataMP.app/Contents/MacOS/stata-mp
+#
+# Linux (different edition):
+# STATA       := stata-se
+
+# --- Non-default Python interpreter (e.g. a venv, python3, or conda env) ---
+# The Makefile just runs `$(PYTHON) script.py`; that interpreter must already
+# have the pipeline's packages installed (create the env once, by hand, with
+# `conda env create -f environment.yml` -- make never builds it for you).
+#
+# System python3 (already has the deps):
+# PYTHON := python3
+#
+# Using the conda env from environment.yml: point PYTHON at that env's
+# interpreter by ABSOLUTE PATH. This is robust -- it works whether or not the
+# env is activated, and does NOT depend on conda's shell hooks (which a
+# non-interactive make subshell may lack, so `$(shell conda run -n ...)` can
+# fail). Find the exact path with:
+#     conda run -n template python -c "import sys; print(sys.executable)"
+# then paste it below. NOTE: both `template` (env name) and `you` (your home
+# dir) below are PLACEHOLDERS -- replace them to match your machine. Rename
+# `template` throughout if you renamed the env per project.
+# PYTHON := /Users/you/miniconda3/envs/template/bin/python
+
+# --- R interpreter, if a stage uses *.R scripts and Rscript isn't on PATH ---
+# RSCRIPT := /usr/local/bin/Rscript
+
+# --- MATLAB, if code/model (or another stage) uses *.m scripts and matlab
+#     isn't on PATH (mind the quotes on Windows paths) ---
+# macOS:   MATLAB := /Applications/MATLAB_R2023b.app/bin/matlab
+# Windows: MATLAB := "C:/Program Files/MATLAB/R2023b/bin/matlab.exe"
+# Linux:   MATLAB := /usr/local/MATLAB/R2023b/bin/matlab
+#
+# MATLAB_BATCH is the headless-run flag; the default `-batch` (R2019a+) is almost
+# always right. Only override for a very old release.
+# MATLAB_BATCH := -batch
+
+# --- Julia interpreter, if a stage uses *.jl scripts and julia isn't on PATH ---
+# JULIA := /usr/local/bin/julia

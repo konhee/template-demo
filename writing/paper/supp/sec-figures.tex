@@ -1,0 +1,14 @@
+\housefigure*{%
+  \panel[sub=A Subfigure, label=fig:background:a]{../../assets/placeholders/placeholder-figure.pdf}
+  \panel[sub=Another Subfigure, label=fig:background:b]{../../assets/placeholders/placeholder-figure.pdf}
+}{Some Figures}{fig:background}{%
+  This figure shows something.}
+
+% Placeholder figure shipped with the template (assets/placeholders/). Root-anchored path:
+% ../../ climbs from writing/paper/ to the repo root. Swap this for your own curated
+% output/figures/... artifact (and caption) once your analysis produces it. One \panel with
+% no sub= renders as a plain single figure; [<w>] sets its width.
+\housefigure[0.5\textwidth]{\panel{../../assets/placeholders/placeholder-figure.pdf}}%
+  {A Single Figure (\texttt{\textbackslash housefigure})}{fig:placeholder}{%
+  Placeholder. Replace the path with an \texttt{output/figures/...} artifact and write your
+  own caption and \textit{Source:} note here.}

@@ -1,0 +1,65 @@
+%%%%%%%%%%%%%%%%%%%% PREAMBLE %%%%%%%%%%%%%%%%%%%%
+% !TEX program = lualatex
+% !TEX options = -synctex=1 -interaction=nonstopmode -file-line-error "%DOC%"
+% !BIB program = bibtex
+\documentclass[letterpaper,12pt]{article}
+
+\input{./supp/preamble-notes.tex}
+\newcommand{\paper}{Price Discrimination Across Buyer Groups}
+\newcommand{\note}{A Note}
+
+%%%%%%%%%%%%%%%%%%%% TITLE %%%%%%%%%%%%%%%%%%%%
+
+\title{\paper: \note}
+\author{Author Name}
+\date{{\usdate\today}}
+
+%%%%%%%%%%%%%%%%%%%% TEXT %%%%%%%%%%%%%%%%%%%%
+
+\begin{document}
+\maketitle
+
+%%%%% MAIN
+{
+\itshape
+This document outlines a simple framework that rationalizes price differences across
+buyer groups and clarifies how differences in costs and demand elasticities generate
+those differentials.
+}
+
+\section{Model}
+This section outlines a simple framework that rationalizes price differences across
+buyer groups and clarifies how differences in costs and demand elasticities generate
+those differentials.
+
+\paragraph{Environment.}
+A seller sets a price $p$ for a good that can be sold to either of two buyer groups
+($g \in \{A, B\}$). Let the seller's marginal cost of supplying the good be $c$. Serving
+group $B$ may entail an additional per-unit cost $k \ge 0$ (e.g., customization,
+compliance, delivery), so effective marginal costs are
+\[
+c_A = c, \qquad c_B = c + k.
+\]
+Let $D_g(p; s_g)$ denote the seller's residual demand from buyer group $g$, where $s_g$
+summarizes market conditions and outside options faced by that group.
+
+The seller chooses price to maximize expected profits:
+\[
+\pi_g(p) = (p - c_g)\, D_g(p; s_g).
+\]
+The optimal price satisfies the standard markup condition:
+\[
+p_g^*(s_g) = c_g + \mu_g(s_g),
+\]
+where $\mu_g(s_g)$ is the markup determined by the elasticity of residual demand for
+group $g$. Differences in equilibrium prices across buyer groups can therefore arise from
+(i) differences in marginal costs $k$, and/or (ii) differences in demand elasticities and
+resulting markups.
+
+\paragraph{Literature.}
+\citet*{Rosen-1974-JPE}; \citet*{Stigler-1961-JPE}
+%%%%%%%%%%%%%%%%%%%% REFERENCES %%%%%%%%%%%%%%%%%%%%
+
+\bibliography{../references}
+
+\end{document}

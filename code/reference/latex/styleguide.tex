@@ -1,0 +1,146 @@
+%%%%%%%%%%%%%%%%%%%% PREAMBLE %%%%%%%%%%%%%%%%%%%%
+% !TEX program = lualatex
+% !TEX options = -synctex=1 -interaction=nonstopmode -file-line-error "%DOC%"
+%
+% styleguide.tex -- SELF-CONTAINED reference for the house figure/table style.
+% PERMANENT REFERENCE: not the paper, not on the Make graph.
+%
+% Two sections:
+%   Figures -- the house float command \housefigure (single, grid, and panels
+%              with subcaptions -- all one command, panels given as \panel{...}),
+%              rendered on the scheme sample PDFs so both schemes can be eyeballed.
+%   Tables  -- \housetable on the four table sample fragments (summary,
+%              correlation, regression, balance).
+%
+% Compile FROM THIS DIRECTORY (reuses supp/preamble-notes.tex, so it builds
+% standalone):
+%     cd code/reference/latex && latexmk -lualatex styleguide.tex
+% GUI editors (TeXShop, VS Code LaTeX Workshop) cd into this dir automatically.
+%
+% The \includegraphics targets are written by figures.do and the \input targets by
+% tables.do (both in the sibling code/reference/stata/) -- rerun those after editing
+% a scheme or the house esttab options, then recompile to compare.
+\documentclass[letterpaper,12pt]{article}
+
+\input{./supp/preamble-notes.tex}
+
+% Sample artifacts live in the sibling code/reference/stata/ (this doc lives in
+% code/reference/latex/, so ../stata reaches its tracked output/). Figures are one
+% flat folder; the scheme is a filename suffix (scatter_mono.pdf, scatter_color.pdf).
+\newcommand{\figdir}{../stata/output/figures}
+\newcommand{\tabdir}{../stata/output/tables}
+
+% The house float/table commands (\housefigure, \housetable; \housesubfigure is a
+% kept alias of \housefigure) live in supp/preamble-notes.tex -- the copy-paste block
+% shared with paper/notes. This document only calls them, so it doubles as usage reference.
+
+% Author/date are non-empty on purpose: the notes \maketitle ends each with \\,
+% which errors ("no line here to end") on a blank line.
+\title{House Figure \& Table Style}
+\author{Author Name}
+\date{\usdate\today}
+
+%%%%%%%%%%%%%%%%%%%% TEXT %%%%%%%%%%%%%%%%%%%%
+\begin{document}
+\maketitle
+
+{
+\itshape
+This document demonstrates the house figure and table commands. Figures are the
+PDFs written by \texttt{figures.do} (both schemes);
+tables are the \LaTeX{} fragments written by \texttt{tables.do} with the
+house \texttt{esttab} options.
+}
+
+\section*{Figures}
+The house figure command covers the common shapes. \texttt{\textbackslash housefigure}
+takes a body of \texttt{\textbackslash panel\{...\}} calls: one panel is a single figure
+(optional uniform width \texttt{[<w>]}), several tile into a grid that wraps by how many
+\texttt{<w>}-wide panels fit across the text width (default \texttt{0.5\textbackslash textwidth},
+so two per row; an odd count centers the last). A \texttt{\textbackslash panel} with
+\texttt{sub=} gets a lettered subcaption and (with \texttt{label=}) its own label, so the
+body can cross-reference a single panel -- e.g.\ \autoref{fig:mono}; a bare
+\texttt{\textbackslash panel\{path\}} is just an image. (\texttt{\textbackslash housesubfigure}
+is a kept alias.) The uniform width \texttt{[<w>]} drives the layout: above
+\texttt{0.5\textbackslash textwidth} panels stack one per row (\autoref{fig:wide}),
+\texttt{0.33\textbackslash textwidth} fits three across (\autoref{fig:threecol}).
+
+% Single figure: one \panel, explicit uniform width. Caption before label, notes last.
+\housefigure[0.7\textwidth]{\panel{\figdir/scatter_color.pdf}}%
+  {Single Figure (\texttt{\textbackslash housefigure}, One \texttt{\textbackslash panel})}{fig:single}{%
+  A lone figure at a set width. Omit the optional width to span \texttt{\textbackslash textwidth}.}
+
+% Panels with subcaptions: here the two panels are the same chart under each scheme,
+% so the subcaptions double as a monochrome-vs-color comparison.
+\housefigure{%
+  \panel[sub=Monochrome (\texttt{s1mono}), label=fig:mono]{\figdir/timeseries_mono.pdf}
+  \panel[sub=Color (\texttt{s2color}), label=fig:color]{\figdir/timeseries_color.pdf}%
+  \panel[sub=Monochrome (\texttt{s1mono}),]{\figdir/histogram_overlap_mono.pdf}
+  \panel[sub=Color (\texttt{s2color})]{\figdir/histogram_overlap_color.pdf}%
+}{Panels with Subcaptions (\texttt{\textbackslash panel} with \texttt{sub=})}{fig:schemes}{%
+  Each panel carries its own subcaption and label; reference a panel with
+  \texttt{\textbackslash autoref}, e.g.\ \autoref{fig:color}.}
+
+% Grid: six bare \panel -> 2x3, each panel at the default 0.5\textwidth. No subcaptions.
+\housefigure{\panel{\figdir/histogram_mono.pdf}\panel{\figdir/histogram_color.pdf}%
+  \panel{\figdir/bar_mono.pdf}\panel{\figdir/bar_color.pdf}%
+  \panel{\figdir/binscatter_mono.pdf}\panel{\figdir/binscatter_color.pdf}}%
+  {Grid (\texttt{\textbackslash housefigure}, Six \texttt{\textbackslash panel} $\to$ 2$\times$3)}{fig:grid2}{%
+  Bare \texttt{\textbackslash panel}s tile two per row at the default \texttt{0.5\textbackslash textwidth};
+  set \texttt{[<w>]} to change how many fit across a row.}
+
+\housefigure{\panel{\figdir/eventstudy_mono.pdf}\panel{\figdir/eventstudy_color.pdf}%
+  \panel{\figdir/kdensity_mono.pdf}\panel{\figdir/kdensity_color.pdf}}%
+  {Grid (\texttt{\textbackslash housefigure}, Four \texttt{\textbackslash panel} $\to$ 2$\times$2)}{fig:grid}{%
+  Bare \texttt{\textbackslash panel}s tile two per row at the default \texttt{0.5\textbackslash textwidth};
+  set \texttt{[<w>]} to change how many fit across a row.}
+
+% Wide panels: [0.6\textwidth] > 0.5, so only one fits per row -> the two panels
+% stack vertically even though they carry (A)/(B) subcaptions.
+\housefigure[0.6\textwidth]{%
+  \panel[sub=Monochrome, label=fig:widemono]{\figdir/scatter_mono.pdf}
+  \panel[sub=Color, label=fig:widecolor]{\figdir/scatter_color.pdf}%
+}{Wide Panels Stack (\texttt{[0.6\textbackslash textwidth]} $>$ Half $\to$ One per Row)}{fig:wide}{%
+  With a panel width above \texttt{0.5\textbackslash textwidth}, only one panel fits per row, so the
+  two panels stack vertically rather than sitting side by side.}
+
+% Three-column: [0.33\textwidth] lets three panels fit across the text width.
+\housefigure[0.33\textwidth]{%
+  \panel[sub=Time Series]{\figdir/timeseries_color.pdf}
+  \panel[sub=Bar]{\figdir/bar_color.pdf}
+  \panel[sub=Density]{\figdir/kdensity_color.pdf}%
+}{Three-Column Layout (\texttt{[0.33\textbackslash textwidth]} $\to$ Three per Row)}{fig:threecol}{%
+  Setting the panel width to \texttt{0.33\textbackslash textwidth} fits three panels across a row;
+  a fourth would wrap to a centered second row.}
+
+\clearpage
+\section*{Tables}
+Tables use \texttt{\textbackslash housetable}, mirroring the figure syntax: a body of
+\texttt{\textbackslash panel\{frag.tex\}} calls, wrapped in a \texttt{table} float with
+caption and notes. One \texttt{\textbackslash panel} is a lone \texttt{\textbackslash input};
+several stack vertically, each with an ``A.'' header when \texttt{sub=} is given
+(\autoref{tab:multi}).
+
+\housetable{\panel{\tabdir/summary.tex}}{Summary Statistics (Descriptive)}{tab:summary}{Descriptive
+  statistics for the built-in \texttt{auto} dataset (\texttt{estpost summarize}).}
+\housetable{\panel{\tabdir/balance.tex}}{Balance by Group ($t$-Test)}{tab:balance}{Group means (domestic
+  vs.\ foreign) and their difference; $t$-statistics in parentheses.
+  \sym{*}~$p<0.10$, \sym{**}~$p<0.05$, \sym{***}~$p<0.01$.}
+\housetable{\panel{\tabdir/correlation.tex}}{Correlation Matrix}{tab:corr}{Pairwise correlations,
+  \texttt{auto} dataset.
+  \sym{*}~$p<0.10$, \sym{**}~$p<0.05$, \sym{***}~$p<0.01$.}
+\housetable{\panel{\tabdir/regression.tex}}{Regression Estimates (Nested OLS)}{tab:reg}{OLS of price on
+  nested regressor sets; standard errors in parentheses.
+  \sym{*}~$p<0.10$, \sym{**}~$p<0.05$, \sym{***}~$p<0.01$.}
+
+% Multi-panel table: two \panel[sub=...] calls stack vertically under one caption,
+% each with an "A. <sub>"/"B. <sub>" header.
+\housetable{%
+  \panel[sub=Summary Statistics, label=tab:multi:summary]{\tabdir/summary.tex}
+  \panel[sub=Balance by Group, label=tab:multi:balance]{\tabdir/balance.tex}%
+}{Multi-Panel Table (\texttt{\textbackslash panel} with \texttt{sub=} $\to$ Stacked Panels)}{tab:multi}{%
+  Two fragments stacked in one float, each under an ``A.''/``B.''
+  header. Reference a panel with \texttt{\textbackslash autoref}, e.g.\ \autoref{tab:multi:balance}.
+  \sym{*}~$p<0.10$, \sym{**}~$p<0.05$, \sym{***}~$p<0.01$.}
+
+\end{document}
