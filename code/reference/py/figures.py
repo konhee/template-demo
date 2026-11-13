@@ -90,7 +90,7 @@ def fig_timeseries(suffix: str) -> None:
 
     fig, ax = plt.subplots()
     ax.plot(years, le, linewidth=2.2)
-    ax.set_title("Life expectancy (years)")
+    ax.set_title("Life Expectancy (years)")
     ax.set_xlabel("Year")
     ax.set_xticks(np.arange(1900, 2001, 20))
     figexport(fig, "timeseries", suffix)
@@ -133,7 +133,7 @@ def fig_eventstudy(suffix: str) -> None:
     ax.axvline(0, color="black", linewidth=0.8)
     ax.set_xticks(t)
     ax.set_title("Coefficient (95% CI)")
-    ax.set_xlabel("Event time")
+    ax.set_xlabel("Event Time")
     figexport(fig, "eventstudy", suffix)
     plt.close(fig)
 
@@ -171,7 +171,7 @@ def fig_bar(suffix: str) -> None:
 
     fig, ax = plt.subplots()
     ax.bar([str(c) for c in grouped.index], grouped.values, width=0.6)
-    ax.set_title("Mean mileage (mpg)")
+    ax.set_title("Mean Mileage (mpg)")
     ax.set_xlabel("Cylinders")
     figexport(fig, "bar", suffix)
     plt.close(fig)
@@ -199,7 +199,7 @@ def fig_binscatter(suffix: str) -> None:
                    facecolor=None if filled else "none", edgecolor=None, linewidth=1.4)
     ax.legend()
     ax.set_title("Mileage (mpg)")
-    ax.set_xlabel("Weight (lbs, thousands)")
+    ax.set_xlabel("Weight (1,000 lbs)")
     figexport(fig, "binscatter", suffix)
     plt.close(fig)
 

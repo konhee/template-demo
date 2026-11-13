@@ -145,9 +145,6 @@ dmypy.json
 # Per-machine Make overrides (copy config.local.mk.example → config.local.mk)
 config.local.mk
 
-# Claude Code per-machine local settings (permission grants etc.; not shared)
-.claude/settings.local.json
-
 # LaTeX build artifacts (compiled PDFs in document/ ARE tracked; aux files are not)
 *.aux
 *.bbl

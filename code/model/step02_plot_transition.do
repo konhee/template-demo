@@ -27,8 +27,8 @@ capture program drop main
 program define main
     init
 
-    make_path capital     k  "Capital per effective worker"
-    make_path consumption c  "Consumption per effective worker"
+    make_path capital     k  "Capital per Effective Worker"
+    make_path consumption c  "Consumption per Effective Worker"
 
     display as text ">> step02_plot_transition.do complete"
 end

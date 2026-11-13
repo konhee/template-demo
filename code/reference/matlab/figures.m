@@ -109,7 +109,7 @@ function figTimeseries(style, figDir)
     fig = figure('Visible', 'off');
     ax = axes(fig);
     plot(ax, years, le, 'LineWidth', 2.2);
-    title(ax, 'Life expectancy (years)');
+    title(ax, 'Life Expectancy (years)');
     xlabel(ax, 'Year');
     xticks(ax, 1900:20:2000);
     figExport(fig, 'timeseries', style, figDir);
@@ -160,7 +160,7 @@ function figEventstudy(style, figDir)
     hold(ax, 'off');
     xticks(ax, t);
     title(ax, 'Coefficient (95% CI)');
-    xlabel(ax, 'Event time');
+    xlabel(ax, 'Event Time');
     figExport(fig, 'eventstudy', style, figDir);
     close(fig);
 end
@@ -208,7 +208,7 @@ function figBar(style, figDir)
     fig = figure('Visible', 'off');
     ax = axes(fig);
     bar(ax, categorical(string(cyls)), means, 0.6);
-    title(ax, 'Mean mileage (mpg)');
+    title(ax, 'Mean Mileage (mpg)');
     xlabel(ax, 'Cylinders');
     figExport(fig, 'bar', style, figDir);
     close(fig);
@@ -250,7 +250,7 @@ function figBinscatter(style, figDir)
     hold(ax, 'off');
     legend(ax, 'Location', 'northeast');
     title(ax, 'Mileage (mpg)');
-    xlabel(ax, 'Weight (lbs, thousands)');
+    xlabel(ax, 'Weight (1,000 lbs)');
     figExport(fig, 'binscatter', style, figDir);
     close(fig);
 end

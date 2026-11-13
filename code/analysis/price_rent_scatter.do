@@ -75,7 +75,7 @@ program define prsc
     twoway (scatter zhvi_k rent_primary if era == 1) ///
            (scatter zhvi_k rent_primary if era == 2) ///
            (scatter zhvi_k rent_primary if era == 3), ///
-        ytitle("") xtitle("Rent of primary residence (CPI)") ///
+        ytitle("") xtitle("Rent of Primary Residence (CPI)") ///
         title("ZHVI ($000s)") ///
         legend(order(1 "Pre-GFC" 2 "GFC" 3 "Post-GFC") position(5)) ///
         aspectratio(0.667)

@@ -79,7 +79,7 @@ mechanics, house float commands and schemes, the `init`/`main` Stata convention.
 - **Kill lingering `template` identifiers** here too: README's `conda run -n template …`
   example, any layout tree showing `template/`, etc.
 
-Commit: **"De-template README/CLAUDE for <project>"**.
+Commit: **"De-template README for <project>"**.
 
 ## 4. Clear the worked pipeline demo (optional, when ready)
 

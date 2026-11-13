@@ -92,7 +92,7 @@ fig_timeseries <- function(suffix) {
   p <- ggplot(df, aes(x = year, y = le)) +
     geom_line(linewidth = 0.9) +
     scale_x_continuous(breaks = seq(1900, 2000, by = 20)) +
-    labs(title = "Life expectancy (years)", x = "Year", y = NULL)
+    labs(title = "Life Expectancy (years)", x = "Year", y = NULL)
   figexport(p, "timeseries", suffix)
 }
 
@@ -125,7 +125,7 @@ fig_eventstudy <- function(suffix) {
     geom_hline(yintercept = 0, colour = "black", linewidth = 0.4) +
     geom_vline(xintercept = 0, colour = "black", linewidth = 0.4) +
     scale_x_continuous(breaks = t) +
-    labs(title = "Coefficient (95% CI)", x = "Event time", y = NULL)
+    labs(title = "Coefficient (95% CI)", x = "Event Time", y = NULL)
   figexport(p, "eventstudy", suffix)
 }
 
@@ -159,7 +159,7 @@ fig_bar <- function(suffix) {
 
   p <- ggplot(df, aes(x = factor(cyl), y = mpg)) +
     geom_col(width = 0.8) +
-    labs(title = "Mean mileage (mpg)", x = "Cylinders", y = NULL)
+    labs(title = "Mean Mileage (mpg)", x = "Cylinders", y = NULL)
   figexport(p, "bar", suffix)
 }
 
@@ -179,7 +179,7 @@ fig_binscatter <- function(suffix) {
 
   p <- ggplot(df, aes(x = wt, y = mpg, colour = group, shape = group)) +
     geom_point(size = 3) +
-    labs(title = "Mileage (mpg)", x = "Weight (lbs, thousands)", y = NULL)
+    labs(title = "Mileage (mpg)", x = "Weight (1,000 lbs)", y = NULL)
   if (suffix == "mono") {
     p <- p + scale_colour_grey() + scale_shape_manual(values = c(19, 1))
   }

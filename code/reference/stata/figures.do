@@ -5,7 +5,7 @@
 * color scheme (s1mono, s2color), from Stata's built-in `sysuse` datasets (no network,
 * no data/derived dependency), and exports them exactly the way the real analysis
 * scripts do (PDF + 1600px PNG, house export stub). Swap in your own scheme in
-* code/lib/stata/ if you want a custom look, rerun this, eyeball output/figures/*_{mono,color}, repeat.
+* code/lib/stata/ if you want a custom look, rerun this, eyeball output/figures/<chart>_{mono,color}, repeat.
 *
 * One looped source, two schemes: `main` runs the SAME chart menu once per scheme,
 * writing both into one flat output/figures/ with the scheme as a filename suffix
@@ -50,7 +50,7 @@ program define main
         gettoken suffix toks : toks
         use_scheme "`scheme'" "`suffix'"
         draw_all
-        display as text ">> figures.do: `scheme' -> output/figures/*_`suffix'.pdf complete"
+        display as text ">> figures.do: `scheme' -> output/figures/<chart>_`suffix'.pdf complete"
     }
 
     display as text ">> figures.do complete"
@@ -161,7 +161,7 @@ program define fig_timeseries
     * Symmetric x ticks with both endpoints on the data edges (xlabel 1900(20)2000).
     twoway (line le year, sort), ///
         ytitle("") xtitle("Year") ///
-        title("Life expectancy (years)") ///
+        title("Life Expectancy (years)") ///
         xlabel(1900(20)2000) ///
         aspectratio(0.667)
     figexport "timeseries"
@@ -209,7 +209,7 @@ program define fig_eventstudy
     * event, yline the zero effect. Both reference lines inherit the structural ink.
     twoway (rarea hi lo t) ///
            (connected coef t), ///
-        ytitle("") xtitle("Event time") ///
+        ytitle("") xtitle("Event Time") ///
         title("Coefficient (95% CI)") ///
         xlabel(-5(1)5) ///
         yline(0) xline(0) ///
@@ -269,8 +269,8 @@ program define fig_bar
 
     * barwidth(0.8) leaves a small gap between bars; xlabel from the category values.
     twoway (bar mpg rep78, barwidth(0.8)), ///
-        ytitle("") xtitle("Repair record (1977)") ///
-        title("Mean mileage (mpg)") ///
+        ytitle("") xtitle("Repair Record (1977)") ///
+        title("Mean Mileage (mpg)") ///
         xlabel(1(1)5) ///
         aspectratio(0.667)
     figexport "bar"
@@ -300,7 +300,7 @@ program define fig_binscatter
 
     twoway (scatter mpg weight if foreign == 0) ///
            (scatter mpg weight if foreign == 1), ///
-        ytitle("") xtitle("Weight (lbs, thousands)") ///
+        ytitle("") xtitle("Weight (1,000 lbs)") ///
         title("Mileage (mpg)") ///
         legend(order(1 "Domestic" 2 "Foreign")) ///
         aspectratio(1)

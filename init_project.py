@@ -389,7 +389,7 @@ def main(argv: list[str] | None = None) -> int:
     if args.self_destruct:
         print("(the setup guides and init_project.py are staged for removal)")
     print("Next: SETUP-NEW-PROJECT.md section 2 (machine setup) and "
-          "section 3 (re-voice README/CLAUDE opening).")
+          "section 3 (re-voice README opening).")
     return 0
 
 
