@@ -5,12 +5,12 @@
 * color scheme (s1mono, s2color), from Stata's built-in `sysuse` datasets (no network,
 * no data/derived dependency), and exports them exactly the way the real analysis
 * scripts do (PDF + 1600px PNG, house export stub). Swap in your own scheme in
-* code/lib/stata/ if you want a custom look, rerun this, eyeball output/mono/ and output/color/, repeat.
+* code/lib/stata/ if you want a custom look, rerun this, eyeball output/figures/*_{mono,color}, repeat.
 *
 * One looped source, two schemes: `main` runs the SAME chart menu once per scheme,
-* writing s1mono to output/mono/ and s2color to output/color/ so the two
-* can be compared side by side. There is no second script to keep in sync -- change
-* a chart here and both schemes pick it up.
+* writing both into one flat output/figures/ with the scheme as a filename suffix
+* (scatter_mono, scatter_color) so the two sort adjacent for comparison. There is
+* no second script to keep in sync -- change a chart here and both schemes pick it up.
 *
 * Chart menu (program per chart; toggle any off in `draw_all`):
 *   scatter      one group, structural marker

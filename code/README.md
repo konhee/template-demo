@@ -57,14 +57,16 @@ on where the line is.
   When an exploration matures, *promote* it: move the script into `analysis/` and have
   it write to the top-level `output/`. Promotion — not directory nesting — is what
   keeps the curated `output/` clean.
-- **`lib/`** — Shared helpers for the stages above: currently a Stata environment
-  (`setup.do` bootstrap, `dependencies.do`, house graphics schemes) under `lib/stata/`;
-  shared Python helpers would live alongside it as a package. See `lib/stata/README.md`.
+- **`lib/`** — Shared helpers for the stages above: the Stata environment (`setup.do`
+  bootstrap, `dependencies.do`, house graphics schemes) under `lib/stata/`, and the
+  matching house figure themes under `lib/py/`, `lib/r/`, and `lib/matlab/`. See each
+  subfolder's `README.md`.
 
 ## Languages
 
-Mostly Stata (`.do`) and Python; the `model/` stage may also use MATLAB (`.m`), Julia
-(`.jl`), or R (`.R`). The Makefile dispatches each by extension and runs a stage's
+Mostly Stata (`.do`) and Python; any stage may also use R (`.R`, best-effort), and the
+`model/` stage typically MATLAB (`.m`) or Julia (`.jl`). The Makefile dispatches each by
+extension in every stage and runs a stage's
 scripts in sorted-filename order (so a numbered prefix fixes their sequence). Stata and
 MATLAB aren't assumed to be on `PATH`, so how to launch them is set in `config.mk` and
 can be overridden per machine in `config.local.mk`.

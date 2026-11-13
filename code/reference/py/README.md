@@ -14,7 +14,7 @@ since both scripts build on the same `mtcars` values:
 | Stata (`auto`/`uslifeexp`) | Python (`mtcars`) |
 |---|---|
 | `mpg` (mileage) | `mpg` (same variable) |
-| `weight` | `wt * 1000` (weight in lbs) |
+| `weight` | `wt * 1000` (lbs) in the scatter; `wt` (1000 lbs) in binscatter and the tables |
 | `length` / a second continuous var | `hp` (horsepower) |
 | a fourth continuous var (tables only) | `qsec` (1/4 mile time) |
 | `rep78` (5-level category) | `cyl` (4/6/8 cylinders) |

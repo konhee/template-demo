@@ -3,7 +3,7 @@
 #
 # PERMANENT REFERENCE. Not on the Make graph. The canonical shape an R
 # build/analysis script follows: a header naming inputs/outputs, root-anchored path
-# constants, a `main()` doing the work, and a run-guard at the bottom. It runs as-is
+# constants, a `main()` doing the work, and a call to main() at the bottom. It runs as-is
 # (writes one tiny CSV under this folder's output/, no data/ needed) so you can run
 # it once to see the pattern, then swap in your real read/transform/write.
 #
@@ -24,7 +24,8 @@
 #     Rscript code/reference/skeletons/analysis.R
 
 # --- locate the repo root, so paths work regardless of the working directory ----
-# Rscript exposes its own path via the --file= argument; parse it, then climb. This
+# Rscript exposes its own path via the --file= argument (absent under an interactive
+# source(), so run it with Rscript, as make does); parse it, then climb. This
 # file sits THREE levels below the root (code/reference/skeletons/); a real script in
 # code/build/ or code/analysis/ is TWO levels below — match the climb to where you copy it.
 this_file <- sub("^--file=", "", grep("^--file=", commandArgs(trailingOnly = FALSE), value = TRUE))

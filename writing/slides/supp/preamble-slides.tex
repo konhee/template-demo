@@ -129,6 +129,9 @@
 
 
 \usepackage[expansion=false]{microtype}
+% LuaTeX 1.10 (TeX Live 2019) turns a letter-adjacent "-" into a discretionary before
+% ligaturing, so word---word sets an EN dash. Mode 1 (the newer engine default) fixes it.
+\automatichyphenmode=1
 \DisableLigatures[-]{}
 \usepackage{array}
 

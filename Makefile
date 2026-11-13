@@ -79,8 +79,8 @@ $(STAMP):
 # --- scripts -------------------------------------------------------------------
 # Collected RECURSIVELY (find, not $(wildcard)) so a stage may subfolder its scripts
 # once it outgrows a flat layout without silently dropping the nested ones. `sort`
-# gives a deterministic run order, so numeric prefixes (01_solve.m, 02_fit.do) run
-# in sequence. The extension set matches run_script's dispatch (.do/.py/.R/.m/.jl);
+# gives a deterministic run order, so numbered prefixes (step01_solve.m, step02_fit.do)
+# run in sequence. The extension set matches run_script's dispatch (.do/.py/.R/.m/.jl);
 # find is fine here because the pipeline runs on Linux/macOS (Windows use is
 # LaTeX-only). 2>/dev/null so a not-yet-created stage dir (e.g. code/model) is a
 # silent no-op, matching the empty-stage graceful-skip contract.
