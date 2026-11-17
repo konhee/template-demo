@@ -117,12 +117,21 @@
 \usepackage{subcaption}
 
 \usepackage{mathtools}
-\usepackage{dsfont}
+\usepackage[sans]{dsfont} % sans blackboard bold (\mathds), to sit with the sans slide font
+% One word space after every full stop and colon, as in the paper and notes.
+\frenchspacing
 
 \usepackage{hyperref}
 \urlstyle{same} % URLs in the text font, not typewriter
 \usepackage[round]{natbib}
-\bibliographystyle{aer}
+% References in the AEA journals' style (Chicago author-date): supp/econ-aea.bst, Shiro
+% Takeda's econ.bst configured to match published AER reference lists. Falls back to
+% the stock AER style (bold author names) if the file is missing.
+\IfFileExists{supp/econ-aea.bst}{
+  \bibliographystyle{supp/econ-aea}
+}{
+  \bibliographystyle{aer}
+}
 \renewcommand{\bibsection}{}
 \usepackage{bibentry} % \nobibliography (voucher-slides.tex)
 

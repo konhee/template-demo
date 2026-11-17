@@ -122,10 +122,12 @@ def tab_summary() -> None:
 # ==============================================================================
 def tab_correlation() -> None:
     df = mtcars.load()
-    varlabels = {"mpg": "Mileage", "hp": "Horsepower", "wt": "Weight", "qsec": "1/4 mile"}
+    # Row labels in sentence case, column headers in title caps (house-exhibits rule 6).
+    varlabels = {"mpg": "Mileage", "hp": "Horsepower", "wt": "Weight", "qsec": "1/4-mile time"}
+    colheads = ["Mileage", "Horsepower", "Weight", "1/4-Mile Time"]
     m = df[list(varlabels)].corr()
 
-    header = "&" + " & ".join(varlabels.values()) + r" \\"
+    header = "&" + " & ".join(colheads) + r" \\"
     rows = []
     for i, vi in enumerate(varlabels):
         cells = [pad(f"{m.loc[vi, vj]:.3f}") if j <= i else "" for j, vj in enumerate(varlabels)]
@@ -182,7 +184,7 @@ def tab_regression() -> None:
 def tab_balance() -> None:
     df = mtcars.load()
     varlabels = {"mpg": "Mileage (mpg)", "hp": "Horsepower", "wt": "Weight (1000 lbs)"}
-    header = f"{padl('')}&{pad('Automatic')}&{pad('Manual')}&{pad('Diff.', 16)}&{pad('t')}\\\\"
+    header = f"{padl('')}&{pad('Automatic')}&{pad('Manual')}&{pad('Diff.', 16)}&{pad('$t$')}\\\\"
 
     rows = []
     for v, label in varlabels.items():

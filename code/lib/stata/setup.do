@@ -5,7 +5,9 @@
 
 * Root markers, in priority order: config.mk pins *this* project (beats an outer
 * git boundary for nested repos); .git/HEAD is the fallback for a bare checkout.
-local sentinels "config.mk" ".git/HEAD"
+* Unquoted on purpose: `local x "a" "b"` strips only the outermost quotes, leaving
+* the first element as `a"` (never matches). Neither name has a space.
+local sentinels config.mk .git/HEAD
 local origin "`c(pwd)'"
 
 * proj_root — the canonical project root (same concept as PROJ_ROOT in the

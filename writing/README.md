@@ -28,7 +28,7 @@ pull request into `master` — same mechanic as `code/`.
 - **`notes/`** — internal notes (model appendix, memos). `make notes`.
 
 Each has a `supp/` subdirectory with its `preamble*.tex`, any section files it splits
-into. See `../SETUP-NEW-PROJECT.md` and `../RETROFIT-EXISTING-PROJECT.md` for the
+into, and the `econ-aea.bst` reference style. See `../SETUP-NEW-PROJECT.md` and `../RETROFIT-EXISTING-PROJECT.md` for the
 subfiles/preamble/font machinery and Windows TeXLive 2019 constraints.
 
 ## Archived versions
@@ -42,7 +42,9 @@ the current build. See each `archive/README.md`.
 
 `references.bib` here is the single shared bibliography. Each document points at it with
 `\bibliography{../references}` — a one-level climb, the same ancestor-anchored pattern the
-preambles use for fonts — so there is one source of truth and nothing to keep in sync.
+preambles use for fonts — so there is one source of truth and nothing to keep in sync. (The
+`econ-aea.bst` style file stays local in each `supp/`; only the bibliography *database*
+is shared.)
 
 ## Figures
 

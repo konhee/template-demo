@@ -1,0 +1,18 @@
+We estimate the effect of treatment on the outcome with a two-way fixed effects
+regression,
+\begin{equation} \label{eq:twfe}
+  y_{it} = \alpha_i + \gamma_t + \beta D_{it} + X_{it}'\delta + \varepsilon_{it},
+\end{equation}
+where $y_{it}$ is the outcome of unit $i$ in year $t$, $\alpha_i$ and $\gamma_t$ are unit
+and year fixed effects, $D_{it}$ indicates treatment, and $X_{it}$ collects time-varying
+controls. The coefficient of interest is $\beta$, and $\hat\beta$ is its estimate.
+Standard errors are clustered by unit.
+
+\paragraph{Event Study.} To trace the effect over time, we replace $\beta D_{it}$ in
+equation~\eqref{eq:twfe} with leads and lags of treatment,
+\begin{align}
+  y_{it} &= \alpha_i + \gamma_t + \sum_{k \neq -1} \beta_k \, \mathds{1}\{t - E_i = k\}
+            + \varepsilon_{it}, \label{eq:es} \\
+  \hat\beta_k &= E[\,y_{it}(1) - y_{it}(0) \mid t - E_i = k\,], \nonumber
+\end{align}
+where $E_i$ is the year unit $i$ is first treated and $k = -1$ is the omitted period.

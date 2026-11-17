@@ -14,9 +14,9 @@
 
 \begin{document}
 
-\title{Idea of North\textsuperscript{\textdagger}}
+\title{Idea of North\textsuperscript{*}}
 \author{
-	Author One, Author Two, and Author Three\textsuperscript{*}
+	Author One, Author Two, and Author Three\textsuperscript{\textdagger}
 }
 \date{
 	\monthyeardate\today \\
@@ -30,8 +30,8 @@
 	\begin{abstract}    
 		\input{./supp/abstract.tex}
 	\end{abstract}
-	\blfootnote{\kern-0.15em \textsuperscript{\textdagger}\,The analysis and conclusions contained in this manuscript are those of the authors and do not necessarily reflect the views of your institution, its members, or its staff. [Institutional disclaimer placeholder.]}
-	\blfootnote{\kern-0.15em \textsuperscript{*}\,Author One: Institution, Address (e-mail: \href{mailto:author1@example.com}{author1@example.com}); Author Two: Institution, Address (e-mail: \href{mailto:author2@example.com}{author2@example.com}); Author Three: Institution, Address (e-mail: \href{mailto:author3@example.com}{author3@example.com}).}
+	\blfootnote{\kern-0.15em \textsuperscript{*}\,The analysis and conclusions contained in this manuscript are those of the authors and do not necessarily reflect the views of your institution, its members, or its staff. [Institutional disclaimer placeholder.]}
+	\blfootnote{\kern-0.15em \textsuperscript{\textdagger}\,Author One: Institution, Address (e-mail: \href{mailto:author1@example.com}{\nolinkurl{author1@example.com}}); Author Two: Institution, Address (e-mail: \href{mailto:author2@example.com}{\nolinkurl{author2@example.com}}); Author Three: Institution, Address (e-mail: \href{mailto:author3@example.com}{\nolinkurl{author3@example.com}}).}
 \end{singlespacing}
 
 
@@ -58,7 +58,7 @@
 
 %%%%% SEC:EMPIRICS
 \section{Empirical Analysis} \label{sec:empirics}
-% \input{./supp/sec-empirics}
+\input{./supp/sec-empirics}
 
 %%%%% SEC:MODEL
 \section{Quantitative Model} \label{sec:model}
@@ -75,7 +75,6 @@
 
 
 \clearpage
-\vspace{0.3em}
 \begin{singlespacing}
 	\bibliography{../references}
 \end{singlespacing}

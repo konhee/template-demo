@@ -124,10 +124,12 @@ end
 function tabCorrelation(tabDir)
     df = mtcars();
     vars = {'mpg', 'hp', 'wt', 'qsec'};
-    labels = {'Mileage', 'Horsepower', 'Weight', '1/4 mile'};
+    % Row labels in sentence case, column headers in title caps (house-exhibits rule 6).
+    labels = {'Mileage', 'Horsepower', 'Weight', '1/4-mile time'};
+    heads = {'Mileage', 'Horsepower', 'Weight', '1/4-Mile Time'};
     m = corr(df{:, vars});
 
-    header = ['&' strjoin(labels, ' & ') ' \\'];
+    header = ['&' strjoin(heads, ' & ') ' \\'];
     rows = cell(1, numel(vars));
     for i = 1:numel(vars)
         cells = cell(1, numel(vars));
@@ -206,7 +208,7 @@ function tabBalance(tabDir)
     df = mtcars();
     vars = {'mpg', 'hp', 'wt'};
     labels = {'Mileage (mpg)', 'Horsepower', 'Weight (1000 lbs)'};
-    header = [padl('') '&' pad('Automatic') '&' pad('Manual') '&' pad('Diff.', 16) '&' pad('t') '\\'];
+    header = [padl('') '&' pad('Automatic') '&' pad('Manual') '&' pad('Diff.', 16) '&' pad('$t$') '\\'];
 
     rows = cell(1, numel(vars));
     for k = 1:numel(vars)

@@ -38,7 +38,7 @@ Copy these from the template into the target's root, then `git add`:
 - `SETUP-NEW-PROJECT.md`, `RETROFIT-EXISTING-PROJECT.md`, `README.md` (the target may
   want to keep its own README content — merge rather than clobber)
 
-(The house LaTeX style — preambles, `supp/`, float commands — is grafted
+(The house LaTeX style — preambles, `supp/`, `econ-aea.bst`, float commands — is grafted
 separately in §4, once the target's docs are in place.)
 
 Then apply **§1 (identity rename)** and **§2 (machine setup)** from `SETUP-NEW-PROJECT.md`
@@ -82,8 +82,9 @@ then reflow the existing prose into it — don't hand-merge two preambles.
 - **House float commands** — `\housefigure` / `\housetable` (paper + notes; panels given
   as `\panel{...}`) and the slide spacing macros come with those preambles. Convert the
   target's hand-written figure/table floats to these calls.
-- **Bibliography** — all three documents use the stock `aer.bst` (already what the
-  template's preambles set); no vendored `.bst` file to copy.
+- **Bibliography** — copy `econ-aea.bst` into each document's `supp/` (paper, notes,
+  slides) and use the `\IfFileExists{supp/econ-aea.bst}` guard the template preambles
+  already carry (it falls back to the stock `aer`).
 - **Subfiles wiring** — if the target's paper is monolithic, adopt the template's
   `subfiles` + `\maindocument` split (`-combined` / `-body` / `-appendices`) only if you
   want standalone-compilable parts; otherwise keep the target's structure and just take the

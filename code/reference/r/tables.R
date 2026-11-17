@@ -125,10 +125,12 @@ tab_summary <- function() {
 # tab_correlation: not/nostar (no stars, no t-stats), lower-triangle only.
 # ==============================================================================
 tab_correlation <- function() {
-  vars <- c(mpg = "Mileage", hp = "Horsepower", wt = "Weight", qsec = "1/4 mile")
+  # Row labels in sentence case, column headers in title caps (house-exhibits rule 6).
+  vars <- c(mpg = "Mileage", hp = "Horsepower", wt = "Weight", qsec = "1/4-mile time")
+  heads <- c("Mileage", "Horsepower", "Weight", "1/4-Mile Time")
   m <- cor(mtcars[names(vars)])
 
-  header <- paste0("&", paste(vars, collapse = " & "), " \\\\")
+  header <- paste0("&", paste(heads, collapse = " & "), " \\\\")
   rows <- vapply(seq_along(vars), function(i) {
     cells <- vapply(seq_along(vars), function(j) {
       if (j > i) "" else pad(sprintf("%.3f", m[i, j]))
@@ -197,7 +199,7 @@ tab_regression <- function() {
 tab_balance <- function() {
   vars <- c(mpg = "Mileage (mpg)", hp = "Horsepower", wt = "Weight (1000 lbs)")
   header <- paste0(padl(""), "&", pad("Automatic"), "&", pad("Manual"), "&",
-                     pad("Diff.", 16), "&", pad("t"), "\\\\")
+                     pad("Diff.", 16), "&", pad("$t$"), "\\\\")
 
   rows <- vapply(names(vars), function(v) {
     x0 <- mtcars[[v]][mtcars$am == 0]

@@ -203,7 +203,7 @@ program define tab_balance
     esttab using "${TAB_DIR}/balance.tex", label compress nonotes replace fragment ///
         star(* 0.10 ** 0.05 *** 0.01) ///
         cells("mu_1(fmt(%9.1f)) mu_2(fmt(%9.1f)) b(star fmt(%9.1f)) t(fmt(%9.2f) par)") ///
-        collabels("Domestic" "Foreign" "Diff." "t") ///
+        collabels("Domestic" "Foreign" "Diff." "\$t\$") ///
         nonumber nomtitle noobs ///
         prehead("\begin{tabular}{l*{4}{c}}" "\doublerule") ///
         posthead("\midrule") ///

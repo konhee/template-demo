@@ -39,9 +39,16 @@
 
 % --- Citations / Bibliography ---
 \usepackage[round,comma]{natbib}
-\setlength{\bibsep}{0em}
+\setlength{\bibsep}{0.3em} % a little air between entries, as in the paper
 \AtBeginDocument{\setlength{\bibhang}{\parindent}} % reference hang = paragraph indent
-\bibliographystyle{aer}
+% References in the AEA journals' style (Chicago author-date): supp/econ-aea.bst, Shiro
+% Takeda's econ.bst configured to match published AER reference lists. Falls back to
+% the stock AER style (bold author names) if the file is missing.
+\IfFileExists{supp/econ-aea.bst}{
+  \bibliographystyle{supp/econ-aea}
+}{
+  \bibliographystyle{aer}
+}
 \bibpunct{(}{)}{,}{a}{}{;}
 
 % --- Hyperlinks ---
@@ -54,6 +61,7 @@
   urlcolor=hexblue,
   filecolor=hexblue
 ]{hyperref}
+\urlstyle{same} % URLs and \nolinkurl e-mail addresses in the text font, not typewriter
 \renewcommand*{\backref}[1]{}
 \renewcommand*{\backrefalt}[4]{%
   \ifcase #1 (Not cited.)%
@@ -116,6 +124,8 @@
 % paragraphs, run-in \paragraph headings, footnote first lines (via \bodyparindent),
 % and the hanging indent of reference-list entries (\bibhang, set to match below).
 \setlength{\parindent}{1em}
+% One word space after every full stop and colon: no wider space between sentences.
+\frenchspacing
 
 % --- Footnotes ---
 \usepackage[bottom]{footmisc}
@@ -126,9 +136,11 @@
 \newlength{\bodyparindent}
 \AtBeginDocument{\setlength{\bodyparindent}{\parindent}}
 
-% No footnote rule: the space above (\skip\footins) separates footnotes from the text
+% No footnote rule: the space above (\skip\footins) separates footnotes from the text.
+% It is the 2em "separate block" step, as around floats, and a minimum: pages end
+% ragged, so a page's leftover space also lands here.
 \renewcommand{\footnoterule}{}
-\setlength{\skip\footins}{0.25in}
+\setlength{\skip\footins}{2em}
 
 % Footnote text formatting
 \usepackage{etoolbox}
@@ -143,6 +155,28 @@
   \hskip1pt\relax#1%
 }
 \makeatother
+
+% --- Lists ---
+% Items are spaced like lines of text, with no extra space around the list or between
+% items, so a list reads as part of its paragraph. (LaTeX's defaults stretch from page to
+% page and set items farther from each other than from the text around them.)
+\usepackage{enumitem}
+\setlist{topsep=0pt, partopsep=0pt, itemsep=0pt, parsep=0pt}
+
+% --- Display math ---
+% A displayed equation is set off by the 1em heading step, fixed (no stretch), and the
+% same after a short line (the "short" skips). In the single-spaced
+% notes that is a plain 1em, which looks exactly like the space around a heading. (The
+% 1.3-spaced paper uses 0.75em: there TeX adds the other quarter itself.)
+% LaTeX resets these skips at every \normalsize, so hook them there.
+\newlength{\housedisplayskip}
+\setlength{\housedisplayskip}{1em}
+\apptocmd{\normalsize}{%
+  \setlength{\abovedisplayskip}{\housedisplayskip}%
+  \setlength{\belowdisplayskip}{\housedisplayskip}%
+  \setlength{\abovedisplayshortskip}{\housedisplayskip}%
+  \setlength{\belowdisplayshortskip}{\housedisplayskip}}{}%
+  {\PackageWarning{house}{Could not hook the display skips into \string\normalsize}}
 
 % --- Listings / Subfiles / Standalone ---
 \usepackage{listings}
@@ -178,12 +212,17 @@
 }
 \makeatother
 
+% Abstract: list topsep/parsep zeroed so the title block's trailing 1em alone sets the
+% gap above it (LaTeX's list defaults would add ~9pt more).
 \renewenvironment{abstract}
  {\normalsize
  \itshape
   \list{}{
     \setlength{\leftmargin}{0.375in}%
     \setlength{\rightmargin}{\leftmargin}%
+    \setlength{\topsep}{0pt}%
+    \setlength{\partopsep}{0pt}%
+    \setlength{\parsep}{0pt}%
   }%
   \item\relax}
  {\endlist}
@@ -231,9 +270,11 @@
 \setlength{\lightrulewidth}{0.4pt}
 \setlength{\aboverulesep}{0.28em} % = the former 0.65ex, now in em
 \setlength{\belowrulesep}{0.28em}
-% flush double rule: two lines with only \doublerulesep between (no inflated gap)
+% flush double rule: two lines with only \doublerulesep between (no inflated gap). Its
+% top pad is 0.17em, not \aboverulesep: the caption gap above already gives most of the
+% air, so caption -> top rule matches the other 0.5em gaps inside a float (optical).
 \newcommand{\doublerule}{%
-  \specialrule{\arrayrulewidth}{\aboverulesep}{0pt}%
+  \specialrule{\arrayrulewidth}{0.17em}{0pt}%
   \specialrule{\arrayrulewidth}{\doublerulesep}{\belowrulesep}}
 % Use right after a heading when a float immediately follows it (no text between):
 % cancels only the float's top \intextsep, so it doesn't hang below the title.
@@ -246,6 +287,35 @@
 \setlength{\textfloatsep}{2em plus 0.5em minus 0.5em}
 \setlength{\intextsep}{2em plus 0.5em minus 0.5em}
 \setlength{\belowcaptionskip}{0pt}
+% Stacked in-text floats: LaTeX puts \intextsep above AND below every [h] float, so two
+% floats in a row would sit 2 x 2em apart. When LaTeX places a float here directly under
+% another (nothing but the first float's trailing space in between), drop that trailing
+% \intextsep, so the pair is one 2em apart like every other float gap. Lua (lualatex only)
+% because LaTeX leaves penalties after that space that TeX macros cannot look past. This
+% patches LaTeX's \@addtocurcol: if a future kernel changes it, the patch fails with a
+% warning and stacked floats keep the old 4em.
+\directlua{
+house = house or {}
+local GLUE, PEN, VLIST, HLIST = node.id('glue'), node.id('penalty'), node.id('vlist'), node.id('hlist')
+function house.mergestacked(intext)
+  local nest = tex.nest[tex.nest.ptr]
+  local n = nest.tail
+  while n and n.id == PEN do n = n.prev end
+  if n and n.id == GLUE and n.width == 0 and n.stretch < 0 then n = n.prev end
+  if not (n and n.id == GLUE and n.width == intext) then return end
+  local p = n.prev
+  if p and p.id == PEN then p = p.prev end
+  if not (p and (p.id == VLIST or p.id == HLIST)) then return end
+  nest.head = node.remove(nest.head, n)
+  node.free(n)
+end
+}
+\makeatletter
+\def\house@intextabove{\directlua{house.mergestacked(\number\intextsep)}\vskip\intextsep}
+\patchcmd{\@addtocurcol}{\vskip \intextsep \box\@currbox}{\house@intextabove \box\@currbox}{}%
+  {\PackageWarning{house}{Could not patch \string\@addtocurcol: stacked in-text floats
+   keep 4em between them}}
+\makeatother
 
 % --- House float commands (copy this block to notes; slides place floats manually) ---
 % Panels are given as a body of \panel commands (NOT a delimited string), so calls read
@@ -338,8 +408,11 @@
     \ifdefempty{\housefig@cont}{\caption{#3}\ifstrempty{#4}{}{\label{#4}}}{\ContinuedFloat\caption*{#3}}%
     \setcounter{housefigi}{0}\setcounter{housefigcol}{0}%
     \let\panel\housefig@figpanel\ignorespaces#2%
-    \ifstrempty{#5}{}{\par\nointerlineskip\vskip\housefloatgap
-      \begin{minipage}{\textwidth}{\footnotesize\textit{Notes.} #5\par}\end{minipage}}%
+    % Notes: single-spaced, like footnotes. The extra 0.22em stands in for the space a
+    % text line keeps above its letters, which an image lacks, so image -> Notes matches
+    % the other 0.5em gaps inside a float (optical).
+    \ifstrempty{#5}{}{\par\nointerlineskip\vskip\dimexpr\housefloatgap+0.22em\relax
+      \begin{minipage}{\textwidth}{\setstretch{1}\footnotesize\textit{Notes.} #5\par}\end{minipage}}%
   \end{figure}%
 }
 \let\housesubfigure\housefigure  % consolidated: subfigures are just panels with sub=
@@ -351,7 +424,9 @@
 \newcommand{\housetab@panel}[2][]{%
   \def\housepanel@sub{}\def\housepanel@label{}\setkeys{housepanel}{#1}%
   \stepcounter{housetabi}%
-  \ifnum\value{housetabi}=1\relax\else\par\nointerlineskip\vskip\housefloatgap\fi
+  % Between stacked panels, 0.125em less than \housefloatgap: the closing \midrule's
+  % \belowrulesep already adds air under the panel above (optical).
+  \ifnum\value{housetabi}=1\relax\else\par\nointerlineskip\vskip\dimexpr\housefloatgap-0.125em\relax\fi
   \begin{subtable}{\textwidth}\centering
     % \expandafter so \caption records the text, not the macro token (see
     % \housefig@figpanel); the "A." + period come from \captionsetup[subtable].
@@ -365,8 +440,9 @@
     \centering
     \ifstrempty{#1}{\caption{#3}\ifstrempty{#4}{}{\label{#4}}}{\ContinuedFloat\caption*{#3}}%
     \setcounter{housetabi}{0}\let\panel\housetab@panel#2%
+    % Notes: single-spaced, like footnotes.
     \ifstrempty{#5}{}{\par\nointerlineskip\vskip\housefloatgap
-      \begin{minipage}{\textwidth}{\footnotesize\textit{Notes.} #5\par}\end{minipage}}%
+      \begin{minipage}{\textwidth}{\setstretch{1}\footnotesize\textit{Notes.} #5\par}\end{minipage}}%
   \end{table}%
 }
 \makeatother
