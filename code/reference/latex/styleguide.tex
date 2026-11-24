@@ -119,7 +119,8 @@ Tables use \texttt{\textbackslash housetable}, mirroring the figure syntax: a bo
 \texttt{\textbackslash panel\{frag.tex\}} calls, wrapped in a \texttt{table} float with
 caption and notes. One \texttt{\textbackslash panel} is a lone \texttt{\textbackslash input};
 several stack vertically, each with an ``A.'' header when \texttt{sub=} is given
-(\autoref{tab:multi}).
+(\autoref{tab:multi}). By default each panel keeps its natural width; \texttt{width=} sets every panel to a common
+width so stacked panels line up (\autoref{tab:multiwidth}).
 
 \housetable{\panel{\tabdir/summary.tex}}{Summary Statistics (Descriptive)}{tab:summary}{Descriptive
   statistics for the built-in \texttt{auto} dataset (\texttt{estpost summarize}).}
@@ -141,6 +142,15 @@ several stack vertically, each with an ``A.'' header when \texttt{sub=} is given
 }{Multi-Panel Table (\texttt{\textbackslash panel} with \texttt{sub=} $\to$ Stacked Panels)}{tab:multi}{%
   Two fragments stacked in one float, each under an ``A.''/``B.''
   header. Reference a panel with \texttt{\textbackslash autoref}, e.g.\ \autoref{tab:multi:balance}.
+  \sym{*}~$p<0.10$, \sym{**}~$p<0.05$, \sym{***}~$p<0.01$.}
+
+% Same two panels with width=: every panel spans the given width, so the rules of
+% stacked panels line up (columns spread evenly). Default (no width) = natural width.
+\housetable[width=\textwidth]{%
+  \panel[sub=Summary Statistics, label=tab:multiwidth:summary]{\tabdir/summary.tex}
+  \panel[sub=Balance by Group, label=tab:multiwidth:balance]{\tabdir/balance.tex}%
+}{Multi-Panel Table with a Common Width (\texttt{width=})}{tab:multiwidth}{%
+  The same two fragments as \autoref{tab:multi}, both set to \texttt{width=\textbackslash textwidth}.
   \sym{*}~$p<0.10$, \sym{**}~$p<0.05$, \sym{***}~$p<0.01$.}
 
 \end{document}

@@ -339,7 +339,12 @@ end
 %       \caption* (label arg ignored) and the panel body may be empty for a
 %       footnote-only continuation page -- pair with an intervening \clearpage, e.g.
 %       \housefigure{...}{Title}{lbl}{}  \clearpage  \housefigure[cont]{}{Title (cont'd)}{}{notes}
-%   \housetable[cont]{ \panel{frag.tex} ... }{caption}{label}{notes}
+%   \housetable[cont, width=<w>]{ \panel{frag.tex} ... }{caption}{label}{notes}
+%       width=<w> (optional) sets every panel's table to width <w>, e.g.
+%       width=\textwidth, with the space between columns stretched evenly; use it so
+%       stacked panels line up. With no width, each panel keeps its natural width (the
+%       default). Fragments stay plain \begin{tabular}...\end{tabular}: \housetable
+%       widens their outermost tabular itself.
 %       One \panel = one \input booktabs fragment wrapped in a subtable; multiple panels
 %       stack vertically, each with an "A." subcaption header when sub= is given (bare
 %       \input if not). label= makes the panel cross-referenceable like a subfigure:
@@ -435,10 +440,31 @@ end
     \input{#2}%
   \end{subtable}\par}
 \newcommand{\housetable}{\@ifstar{\tightafterheading\housetable@}{\housetable@}}
+% \housetable's optional argument is a key list: cont (continuation, as before) and
+% width=<w> (fixed table width). With no width the fragments keep their natural width.
+\define@key{housetable}{cont}[true]{\def\housetab@cont{1}}%
+\define@key{housetable}{width}{\def\housetab@width{#1}}%
+% width=: inside the float, the OUTERMOST tabular of each panel fragment is started as a
+% tabular* at that width, with the inter-column space stretched evenly. Fragments stay
+% plain, portable \begin{tabular}...\end{tabular} (nothing house-specific in them), and
+% outside a \housetable[width=...] nothing changes. A depth counter leaves any nested
+% tabular (e.g. a stacked header cell) alone. Only the start is swapped: with array
+% loaded, \end{tabular*} is the same command as \end{tabular}. tabular* is invoked by
+% name, since \tabular* would read the star as a separate token.
+\newcount\housetab@depth
+\newcommand{\housetab@widen}{%
+  \let\housetab@origtabular\tabular
+  \let\housetab@origendtabular\endtabular
+  \def\tabular{\global\advance\housetab@depth\@ne
+    \ifnum\housetab@depth=\@ne\expandafter\housetab@wide\else\expandafter\housetab@origtabular\fi}%
+  \def\endtabular{\housetab@origendtabular\global\advance\housetab@depth\m@ne}}
+\def\housetab@wide#1{\@nameuse{tabular*}{\housetab@width}{@{\extracolsep{\fill}}#1}}
 \newcommand{\housetable@}[5][]{%
   \begin{table}[ht!]
+    \def\housetab@cont{}\def\housetab@width{}\setkeys{housetable}{#1}%
+    \ifdefempty{\housetab@width}{}{\housetab@widen\global\housetab@depth\z@}%
     \centering
-    \ifstrempty{#1}{\caption{#3}\ifstrempty{#4}{}{\label{#4}}}{\ContinuedFloat\caption*{#3}}%
+    \ifdefempty{\housetab@cont}{\caption{#3}\ifstrempty{#4}{}{\label{#4}}}{\ContinuedFloat\caption*{#3}}%
     \setcounter{housetabi}{0}\let\panel\housetab@panel#2%
     % Notes: single-spaced, like footnotes.
     \ifstrempty{#5}{}{\par\nointerlineskip\vskip\housefloatgap
